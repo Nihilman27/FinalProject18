@@ -1,0 +1,241 @@
+import random 
+#imports random module 
+import time 
+#imports time module 
+
+choices = ['rock', 'water', 'air', 'paper', 'sponge', 'scissors', 'fire']
+#Creates predefined list of possible choices that can be made in the game.
+computer = 0
+#Sets computer score to zero.
+player = 0
+#Sets player score to zero.
+computer_w = 0
+#Sets computer game wins to zero.
+player_w = 0
+#Sets player game wins to zero.
+
+def computer_choice():
+  #Function created for computer choice.
+  x = random.choice(choices)
+  #The computer randomly chooses a word from the list of choices.
+  return x
+  #Returns the randomly chosen word. 
+
+def player_choice():
+  #Function for the players choice. 
+  a = 0
+  #sets variable a to zero
+  while a == 0: 
+    #While a is equal to zero
+    x = input("What will you choose?")
+    #Variable x will become the players input 
+    if x in choices:
+      #If x is present in the list of possible choices. 
+      a == 1
+      #a is set 1 ending the while loop.
+      return x
+      #The word the player chose is returned.
+    else:
+      #If the word the player chose is not in the list of possible choices. 
+      print ("You can't choose that!")
+      #Prints ("You can't choose that!") and the while loop begins again. 
+
+def who_wins(a, b): 
+  #Function for checking who wins.       
+  possible_options = {
+  #Creates a dictionary of all possible outcomes and creates respective values for them. 1 is victory, 2 is defeat, 0 is tie. 
+      'rock' : {
+        'rock' : 0, 
+        'water' : 2,
+        'air' : 2,
+        'paper': 2,
+        'sponge': 1,
+        'scissors': 1,
+        'fire' : 1
+      },
+      'water' : {
+        'rock' : 1, 
+        'water' : 0,
+        'air' : 2,
+        'paper': 2,
+        'sponge': 2,
+        'scissors': 1,
+        'fire' : 1
+      },
+      'air' : {
+        'rock' : 1, 
+        'water' : 1,
+        'air' : 0,
+        'paper': 2,
+        'sponge': 2,
+        'scissors': 2,
+        'fire' : 1
+      },
+      'paper' : {
+        'rock' : 1, 
+        'water' : 1,
+        'air' : 1,
+        'paper': 0,
+        'sponge': 2,
+        'scissors': 2,
+        'fire' : 2
+      },
+      'sponge' : {
+        'rock' : 2, 
+        'water' : 1,
+        'air' : 1,
+        'paper': 1,
+        'sponge': 0,
+        'scissors': 2,
+        'fire' : 2
+      },
+      'scissors' : {
+        'rock' : 2, 
+        'water' : 2,
+        'air' : 1,
+        'paper': 1,
+        'sponge': 1,
+        'scissors': 0,
+        'fire' : 2
+      },
+      'fire' : {
+        'rock' : 2, 
+        'water' : 2,
+        'air' : 2,
+        'paper': 1,
+        'sponge': 1,
+        'scissors': 1,
+        'fire' : 0
+      },
+    }
+  if possible_options[b][a] == 1:
+    #If the player won the round.
+    return 1
+    #return the value 1
+  elif possible_options[b][a] == 2:
+    #If the computer won the round. 
+    return 2
+    #return value 2 
+  else: 
+    #If the player and the computer chose the same option.
+    return
+    #Return nothing
+
+def main_loop():
+  #Function for carrying out the main processes of the game. 
+  global computer
+  #Sets the computer score to a global variable. 
+  global player
+  #Sets the player score to a global variable.
+  while computer < 2 and player < 2:
+    #Creates while loop which will carry out game. Since a game is best out of three, once the computer or the players score reaches 2 the game will reach its end.  
+    a = computer_choice ()
+    #Creates variable a which will be the computer choice. 
+    b = player_choice ()
+    #Creates variable b which will be the player choice. 
+    if who_wins (a, b) == 1:
+      #If the player wins.
+      print (f"Player chose: {b}, Computer chose: {a}")
+      #Print what the player and the computer chose. 
+      player += 1
+      #Add one to the player score.
+      time.sleep (2)
+      #Wait two seconds. 
+      print (f"Player: {player} Computer: {computer}")
+      #Print the player and the computer score. 
+    elif who_wins (a, b) == 2:
+      #If the computer wins 
+      print (f"Player chose: {b}, Computer chose: {a}") 
+      #Print what the player and the computer chose. 
+      computer += 1
+      #Add one to the computer score.
+      time.sleep (2)
+      #Wait two seconds. 
+      print (f"Player: {player} Computer: {computer}") 
+      #Print the player and the computer score. 
+    else: 
+      #If the player and the computer chose the same option. 
+      print (f"Player chose: {b}, Computer chose: {a}")
+      #Print what the player and the computer chose. 
+      time.sleep (2)
+      #Wait two seconds.
+      print ("That was a tie! Try again")
+      #Tell the player it was a tie and loop beings again. 
+
+def victory ():
+  #Function for when the computer or the player wins. 
+  global computer
+  #Sets the computer score to a global variable.
+  global player
+  #Sets the player score to a global variable.
+  global computer_w
+  #Sets the computer game wins to a global variable. 
+  global player_w
+  #Sets the player game wins to a global variable. 
+  if computer == 2:
+    #If the computer won the game.
+    computer_w += 1 
+    #Add one to computer game wins 
+    print ("The computer was victorious!")
+    #Print that the computer won
+    time.sleep (2)
+    #Wait two seconds 
+    answer = input ("Would you like to play another round?: yes or no")
+    #Sets answer variable to the players input to the question of wheter they want to play again.
+    if answer == 'yes':
+    #If the player responds yes. 
+      computer = 0
+      #Computer score set to zero
+      player = 0
+      #Player score set to zero
+      main_loop ()
+      #main_loop function is carried out
+      victory ()
+      #victory function is carried out 
+    else: 
+    #If the player does not respond with yes. 
+      print ("Thanks for playing.")
+      #Prints thank you for playing. 
+      time.sleep (2)
+      #Wait two seconds. 
+      print (f"Computer game wins: {computer_w} Player game wins: {player_w}")
+      #Prints the total game wins for the computer and the player. 
+  if player == 2:
+    #If the player won. 
+    player_w += 1
+    #Add one to player game wins.
+    print ("The player was victorious!")
+    #Print that the player won.
+    time.sleep (2)
+    #Wait two seconds
+    answer = input ("Would you like to play another round?: yes or no")
+    #Sets answer variable to the players input to the question of wheter they want to play again.
+    if answer == 'yes':
+    #If the player responds yes.
+      computer = 0
+      #Computer score set to zero
+      player = 0
+      #Player score set to zero
+      main_loop ()
+      #main_loop function is carried out
+      victory ()
+      #victory function is carried out 
+    else: 
+    #If the player does not respond with yes.
+      print ("Thanks for playing.")
+      #Prints thank you for playing.
+      time.sleep (2)
+      #Wait two seconds. 
+      print (f"Computer game wins: {computer_w} Player game wins: {player_w}")
+      #Prints the total game wins for the computer and the player. 
+
+print ("Welcome to rock, water, air, paper, sponge, scissors, fire. The computer will now choose, good luck! This is best out of three...")
+#Prints welcome to the game. 
+time.sleep (2)
+#Wait two seconds. 
+main_loop ()
+#main_loop function is carried out
+victory ()
+#victory function is carried out 
+
+  
